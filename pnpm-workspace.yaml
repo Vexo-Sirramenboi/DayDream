@@ -1,3 +1,10 @@
+allowBuilds:
+  '@heroui/shared-utils': set this to true or false
+  '@parcel/watcher': set this to true or false
+  bufferutil: set this to true or false
+  core-js: set this to true or false
+  esbuild: set this to true or false
+  ttf2woff2: set this to true or false
 ignoredBuiltDependencies:
   - '@heroui/shared-utils'
   - ttf2woff2

@@ -10,6 +10,11 @@
   ],
   "extends": "./tsconfig.json",
   "include": ["src", "public/core/client.js", "global.d.ts", "pages"],
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/vitest.config.ts"
+  ],
   "compilerOptions": {
     "paths": {
       "@browser/*": ["browser/*"],
@@ -24,6 +29,8 @@
       "@core/*": ["core/*"],
       "@/*": ["*"],
       "@../*": ["../*"],
+      "neutron": ["pkgs/neutron/src/index.ts"],
+      "neutron/*": ["pkgs/neutron/src/*"],
       "@terbiumos/tfs": ["types/terbiumos-tfs.d.ts"],
       "@terbiumos/tfs/browser": ["types/terbiumos-tfs.d.ts"],
       "@mercuryworkshop/scramjet-controller": ["core/SJ/controller/src/index.ts"],

@@ -6,19 +6,19 @@
  * relay across the iframe boundary, DNR with live webRequest hook)
  * requires an integration harness and is deferred.
  *
- * Run via:  npx tsx src/core/helium/host/__sanity__/run.ts
+ * Run via:   npx tsx src/core/helium/host/__sanity__/run.ts
  *
  * Coverage:
- *   - DNR urlFilter compiler (special chars, anchors)
- *   - DNR engine evalRules (priority, allow override, modifyHeaders accumulate)
- *   - DNR engine compileRule defaults + invalid regex
- *   - DNR engine ruleMatches negative cases
- *   - DNR isRegexSupported
- *   - webNavigation matchesEventFilter (every UrlFilter field)
- *   - webRequest matchesRequest (urls + types + tabId)
- *   - i18n formatMessage substitutions (placeholders + $N)
- *   - runtime buildMessageSender (BG/CS branches)
- *   - runtime dispatchOnMessage contract (sync, async, timeout, multi-listener)
+ *    - DNR urlFilter compiler (special chars, anchors)
+ *    - DNR engine evalRules (priority, allow override, modifyHeaders accumulate)
+ *    - DNR engine compileRule defaults + invalid regex
+ *    - DNR engine ruleMatches negative cases
+ *    - DNR isRegexSupported
+ *    - webNavigation matchesEventFilter (every UrlFilter field)
+ *    - webRequest matchesRequest (urls + types + tabId)
+ *    - i18n formatMessage substitutions (placeholders + $N)
+ *    - runtime buildMessageSender (BG/CS branches)
+ *    - runtime dispatchOnMessage contract (sync, async, timeout, multi-listener)
  *
  * NOTE: We avoid persistence-touching paths in modules that write to
  * extfs (action handlers, alarms scheduler, bookmarks/history state).
@@ -55,7 +55,7 @@ const failures: string[] = [];
 async function expect(label: string, fn: () => Promise<void> | void): Promise<void> {
   try {
     await fn();
-    console.log(`  ok   ${label}`);
+    console.log(`   ok   ${label}`);
   } catch (err) {
     failures.push(`${label}: ${(err as Error).message}`);
     console.error(`  FAIL ${label}: ${(err as Error).message}`);
@@ -74,12 +74,6 @@ function assertTrue(cond: boolean, label: string): void {
 
 function assertFalse(cond: boolean, label: string): void {
   if (cond) throw new Error(`${label}: expected falsy`);
-}
-
-function assertContains(haystack: string, needle: string, label: string): void {
-  if (!haystack.includes(needle)) {
-    throw new Error(`${label}: substring "${needle}" not found in ${JSON.stringify(haystack)}`);
-  }
 }
 
 function mkRequest(over: Partial<DNRRequest> = {}): DNRRequest {
@@ -636,7 +630,7 @@ async function main(): Promise<void> {
   });
 
   await expect('dispatchOnMessage: sync sendResponse delivers response', async () => {
-    const listener: OnMessageListener = (msg, sender, sendResponse) => {
+    const listener: OnMessageListener = (msg, _sender, sendResponse) => {
       sendResponse({ reply: msg });
     };
     const r = await dispatchOnMessage([listener], 'hi', null);

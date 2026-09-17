@@ -1,6 +1,6 @@
 import { scramjetPath } from "@mercuryworkshop/scramjet/path";
 //@ts-ignore
-import {tfsPath} from "@terbiumos/tfs";
+import { tfsPath } from "@terbiumos/tfs";
 import path from "path";
 
 export const routePaths = {
@@ -27,16 +27,13 @@ const sjConfigPath = path.resolve("src/core/SJ/config/dist");
 const libcurlPath = path.dirname(
   path.resolve("node_modules/libcurl.js/libcurl.wasm"),
 );
-// Local controller is built from src/core/SJ/controller/src by the
-// `npm run controller:build` step (also wired into `npm run build`).
-// Outputs land in src/core/SJ/controller/dist as api.js / sw.js /
-// inject.js — the same three artifacts the prebuilt package shipped,
-// just with our local modifications baked in.
+
 const sjControllerPath = path.resolve("src/core/SJ/controller/dist");
 const obscuraIifePath = path.resolve("src/pkgs/Obscura/dist");
+
 const copyMap = {
   scramjet: {
-    path: scramjetPath,
+    path: path.resolve(scramjetPath),
     files: [
       { name: "scramjet.js", rename: "s.js" },
       { name: "scramjet.wasm", rename: "s.wasm" },
@@ -132,23 +129,26 @@ function generateStaticCopyTargets(map: typeof copyMap) {
     for (const file of files) {
       if (typeof file === "string") {
         targets.push({
-          src: `${basePath}/${file}`,
+          src: path.resolve(basePath, file).replace(/\\/g, "/"),
           dest: entry.dest,
+          noErrorOnMissing: true,
         });
       } else {
         targets.push({
-          src: `${basePath}/${file.name}`,
+          src: path.resolve(basePath, file.name).replace(/\\/g, "/"),
           dest: entry.dest,
           rename: file.rename,
+          noErrorOnMissing: true,
         });
       }
     }
   }
 
   targets.push({
-    src: `node_modules/eruda/eruda.js`,
+    src: path.resolve("node_modules/eruda/eruda.js").replace(/\\/g, "/"),
     dest: "core",
     rename: "inspect.js",
+    noErrorOnMissing: true,
   });
 
   return targets;

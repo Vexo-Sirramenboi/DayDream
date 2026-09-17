@@ -339,5 +339,8 @@ export default defineConfig({
   },
   resolve: {
     tsconfigPaths: true,
+    alias: {
+      neutron: resolve(__dirname, "src/pkgs/neutron"),
+    },
   },
 });
